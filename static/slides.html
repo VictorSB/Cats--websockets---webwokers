@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    	<title>HTML5Party!</title>
+    	<meta charset="utf-8">
+    	<script src="./static/javascripts/slides.js"></script>
+
+  		<script>
+  		var transientIframe = function(slideId, url) {
+    		iframeId = slideId + "-iframe";
+    		var slide = document.getElementById(slideId);
+    		slide.addEventListener("slideenter", function() {
+      			if (document.getElementById(iframeId)) {
+        			return;
+      			}
+      		var iframe = document.createElement("iframe");
+      		iframe.src = url;
+      		iframe.id = iframeId;
+      		slide.appendChild(iframe);
+    	});
+    	slide.addEventListener("slideleave", function() {
+      		var iframe = document.getElementById(iframeId);
+      		if (iframe) {
+        		iframe.parentNode.removeChild(iframe);
+      		}
+    	});
+  	   }
+  	  </script>
+  	  <style>  
+       .slides > article:not(.fill)::before {
+         content: '';
+         display: block;
+         width: 100px;
+         height: 100px;
+         position: absolute;
+         left: 0;
+         bottom: 0;
+       }
+      </style>
+
+  	  <meta name="viewport" content="width=1100,height=750">
+  	  <meta name="apple-mobile-web-app-capable" content="yes">
+
+	  <script src="/socket.io/socket.io.js"></script>
+	  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	  <script>window.jQuery || document.write('<script src="/static/js/libs/jquery-1.6.2.min.js"><\/script>')</script>	
+  </head>
+  
+  <body style="display: none" class="loaded">
+
+    <section class="slides layout-regular template-default">
+      
+      <!-- Your slides (<article>s) go here. Delete or comment out the
+           slides below. -->
+	  <style>
+	  #author{
+		margin-top: 170px;
+		margin-left: 470px;
+	  }
+	  </style>	
+	  
+	  <article style="background: url(static/images/html5party.png) 0px 0px no-repeat;">
+	  	<canvas style="position:relative;margin-top:-40px" class="rounded_borders" id="mainCanvas" width="900px" height="700px">Your browser is not cool enough to see this page, update it!</canvas>
+	  </article>
+      
+
+      <article class="" style="background: url(static/images/html5party.png) 0px 0px no-repeat;">
+        <h1>
+          Cats, webworkers & websockets =)
+          <br>
+          <span style="font-size:0.5em">Let's save the internet!</span>
+        </h1>
+        <p id="author">
+          Víctor Sánchez Belmar
+          <br>
+          October 3rd, 2011
+        </p>
+      </article>
+      
+      <article class="fill">
+        <h3>
+Víctor Sánchez Belmar
+        </h3>
+        <img src="static/images/avatar_victor_sanchez.png" alt="Víctor Sánchez Belmar" style="float:right; width:230px; border:2px solid black; padding:2px">
+        <ul>
+          <li>
+            HTML5 Researcher @ ETSIT UPM
+          </li>
+          <li>
+            Co-organizer of the HTML5Party! :)
+          </li>
+				<li>Associated Instructor at IIT</li>
+				<li>Event addict and startup lover =)</li>
+		  <li>
+            <a href="mailto:vsanchez@dit.upm.es">vsanchez@dit.upm.es</a>
+          </li>
+          <li>
+            <a href="http://twitter.com/VictorSanchez">@VictorSanchez</a>
+          </li>
+          <li>
+            <a href="https://profiles.google.com/108520622015702384714">+VictorSanchez</a>
+          </li>
+          <li>
+            <a href="http://victorsb.com">http://victorsb.com</a>
+          </li>
+        </ul>
+      </article>
+
+	  <article class="fill" style="background: url(static/images/html5party.png) 0px 0px no-repeat;">
+		<h3 style="margin-top:230px">What's with the title?</h3>
+	  </article>
+
+      <article class="fill">
+	    <h3>The internet is for cats...</h3>
+		<ul>
+			<li>2005 -- Youtube appears.</li>
+			<li>2006 -- Google buys youtube.</li>
+			<li>2009 -- 10.000.000h of cute cat footage.</li>
+			<li>2011 -- First Nyancat Watchers tournament</li>
+			<li>2012 -- end of the internet?</li>
+			<img src="static/images/nyancat.gif" style="width:300px;border:2px solid black;margin-left:200px;padding:2px" />
+		</ul>
+      </article>
+            
+      <article class="fill">
+        <h3>
+          First things first... what are WebSockets?
+        </h3>
+		<ul>
+			<li>Bidirectional communication channel</li>
+			<li>Exposed via javascript api.</li>
+			<li>Event driven in client & server</li>
+			<li>Work on top of TCP</li>
+			<img src="static/images/websockets_cronogram.gif" style="background-color:white;width:300px;border:2px solid black;margin-left:200px;padding:2px;margin-top:40px" />		
+		  
+		</ul>
+      </article>
+
+      <article class="fill">
+        <h3>
+          Where caniuse.com them?
+        </h3>
+		<iframe src="http://caniuse.com/websockets/embed/" style="width:800px;height:420px;margin-left:50px;margin-top:100px"></iframe>
+      </article>
+
+
+      <article class="fill">
+        <h3>
+          WebSockets are easy to script!
+        </h3>
+<pre class="prettify">
+var ws = new WebSocket("ws://server.com");
+ws.onopen = function()
+{
+  //socket open, let's send data	
+  ws.send("Message to send");
+};
+	     
+ws.onmessage = function (evt) 
+{ 
+  //Do something with the message
+};
+	     
+ws.onclose = function()
+{ 
+  //Bye websocket
+};
+</pre>
+      </article>
+
+      <article class="fill">
+        <h3>
+          Webworkers
+        </h3>
+		<ul>
+			<li>Serious apps means serious tools.</li>
+			<li>We NEED threads.</li>
+			<li>WebWorkers are threads on the browser made easy.</li>
+			<li>No more blocking main UI-thread with non-ui calculations.</li>
+			<img src="static/images/js_error.png" style="background-color:white;border:2px solid black;margin-left:80px;padding:2px;margin-top:40px" />		
+		</ul>
+      </article>
+
+      <article class="fill">
+        <h3>
+          Where caniuse.com them?
+        </h3>
+		<iframe src="http://caniuse.com/webworkers/embed/" style="width:800px;height:400px;margin-left:50px;margin-top:100px"></iframe>
+      </article>
+
+      <article class="fill">
+        <h3>
+          Webworkers, some limitations...
+        </h3>
+		<ul>
+			<li>No DOM access.</li>
+			<li>No document object.</li>
+			<li>No window object.</li>
+			<li>No parent object.</li>
+			<li>So UI is manipulated from the main thread only.</li>
+			<li>But, background processing is more than enough.</li>
+		</ul>
+      </article>
+
+      <article class="fill" id="">
+        <h3>End of the internet? Not in my watch!</h3>
+		<ul>
+			<li>We need to stop wasting our time!</li>
+			<li>...or at least do something useful at the same time (webworkers)</li>
+			<li>while we are online (websockets), watching cats... </li>
+			<li><h4>It's time to PROCRASTINATE! for science =)</h4></li>
+		</ul>
+      </article>
+
+	  <article class="fill" style="background: url(static/images/html5party.png) 0px 0px no-repeat;">
+		<h3 style="margin-top:230px">Finding a good sample...</h3>
+	  </article>
+      
+      <article class="fill">
+        <h3>Distributed computing with HTML5?</h3>
+        <ul>
+          <li>Do you remember SETI@HOME?</li>
+          <li>We put our computer to work for NASA while watching a wallpaper.<br/>
+		  <img src="static/images/seti.jpg" style="width:400px;border:2px solid black;margin-left:180px;padding:2px" />		
+		  </li>
+          <li><h3>Change the wallpaper for cats, <a href="http://www.9gag.com">9gag.com</a>, <a href="http://www.ascodevida.com">ADV</a> or any other procrastination site ;) and you got the idea of this lecture.</h3></li>
+        </ul>
+      </article>
+      
+      <article class="fill">
+        <h3>Learning by example...</h3>
+		<img src="static/images/architecture.png" style="border:2px solid black;margin-left:-40px;margin-top:10px;width:850px;padding:2px" />
+      </article>
+      
+      <article class="fill">
+        <h3>
+          All of that and even some more in... 40 minutes ;)
+        </h3>
+		<ul>
+			<li>We are not going to review every single line of code.</li>
+			<li>But in 40 minutes, with this sample, you can learn a lot about node.js, websockets & webworkers.</li>
+			<li>Nothing better than learning by example, right? =)</li><br/><br/>
+			<li><h3>Let's get started!</h3></li>
+		</ul>
+      </article>
+
+	  <article class="fill" style="background: url(static/images/html5party.png) 0px 0px no-repeat;">
+		<h3 style="margin-top:230px">Node JS</h3>
+	  </article>
+
+      <article class="fill">
+        <h3>
+          Why you should love NODE.JS?
+        </h3>
+		<ul>
+			<li><a href="http://nodejs.org/">Node JS</a> is EVENT driven</li>
+			<li>Node JS works asynchronously and makes concurrency a joke.</li>
+			<li>There is others like <a href="http://rubyeventmachine.com/">EventMachine(ruby)</a> & <a href="http://twistedmatrix.com/trac/">Twisted(Python)</a></li>
+			<li>Node.js has many <a href="http://search.npmjs.org/">third party modules</a> and good benchmarks.</li>
+			<img src="static/images/node_vs_apache.png" style="border:2px solid black;margin-left:200px;margin-top:10px;width:350px;padding:2px" />
+		</ul>
+      </article>
+
+      <article class="fill">
+        <h3>
+          More love for NODE.JS
+        </h3>
+		<ul>
+			<li><a href="http://nodejs.org/">Node JS</a> uses javascript.</li>
+			<li>For the first time client and server are speaking the same language.</li>
+			<li>Low latency means great real time apps.</li>
+			<li>Everybody is trying it and a lot are keeping it.</li>
+			<li>You can deploy node.js apps in <a href="http://heroku.com">heroku</a> or in <a href="http://joyent.com">Joyent</a></li>
+		</ul>
+      </article>
+
+      <article class="fill">
+        <h3>
+          Installing NodeJS and NPM
+        </h3>
+		<ul>
+			<li>Download the last stable version and...</li>
+<pre class="prettify">
+>./configure	
+>sudo make
+>sudo make install
+
+#Check the installation with:
+>node -v
+v0.4.11
+</pre>
+			<li><a href="http://npmjs.org/">We need NPM (node package manager)</a></li>
+<pre class="prettify">
+>curl http://npmjs.org/install.sh | sh
+>npm -v
+1.0.28-pre-DEV-UNSTABLE
+npm install socket.io
+npm install express
+</pre>			
+		</ul>
+      </article>
+
+      <article class="fill">
+        <h3>
+          NodeJS modules: Express (Web framework)
+        </h3>
+		<iframe src="http://expressjs.com/"></iframe>
+      </article>
+
+      <article class="fill">
+        <h3>
+          NodeJS modules: Socket.IO (Web sockets server)
+        </h3>
+		<iframe src="http://socket.io/"></iframe>
+      </article>
+
+      <article class="fill">
+        <h3>
+          About Socket.IO
+        </h3>
+		<ul>
+			<li>WebSockets wrapper 100% crossbrowser (uses flash, or even long-polling when no websockets available)</li>
+			<li>It adds some high level functions useful for real-time apps.</li>
+			<li>Javascript API almost identical to Websockets.</li>
+		</ul>
+      </article>
+
+	  <article class="fill" style="background: url(static/images/html5party.png) 0px 0px no-repeat;">
+		<h3 style="margin-top:230px">Setting up a server.</h3>
+	  </article>
+
+      <article class="fill">
+        <h3>
+          Setting up our server... (I)
+        </h3>
+<pre class="prettify">
+//Launching express web framework and socket.io
+var app = require('express').createServer();
+var io  = require('socket.io').listen(app);
+
+//Setting up the webserver
+app.listen(80);
+
+//Routing the index
+//Very similar to routing in other frameworks.
+app.get('/', function (req, res) {
+  res.sendfile(__dirname + '/static/slides.html');
+});
+
+//Routing any other static files
+app.get('/static/*', function (req, res) {
+  res.sendfile(__dirname + req.url);
+});
+</pre>
+	  <ul>
+	  	<h3>I'm delivering my slides using this piece of code.</h3>
+	  </ul>	
+      </article>
+
+	  <article class="fill">
+	    <h3>
+	      Setting up our server... (II) echo echo 
+	    </h3>
+<pre class="prettify">
+io.sockets.on('connection', function (socket) {
+	
+   socket.on('echo', function (data) {
+      socket.emit('echo', {message: data.message});
+   });
+
+});
+</pre>
+	</article>
+	
+    <article class="fill">
+		<h3>
+		  Echo client	
+		</h3>
+<pre class="prettify" style="margin-top:10px">var socket;
+//connect socket
+function connectSocket(){
+  socket = io.connect('http://localhost');
+
+  socket.on('connect', function(){
+    console.log("Socket connected!")
+  });
+
+  socket.on('echo', function(data){
+    console.log(data.message);
+  });    
+}
+
+//trying the echo
+function echo(data){
+  socket.emit('echo',{message:data});
+}
+</pre>
+	  </article>
+	
+	  <article class="fill">
+        <h3>
+          Trying the echo...
+        </h3>
+		<input value="Connect Socket" type="button" onClick="connectSocket()    "><input value="Disconnect Socket" type="button" onClick="disconnectSocket()    "><br/>
+		<input type="text" id="echo_field" />
+		<input value="Echo it!" type="button" onClick="echo($('#echo_field').attr('value'))"><br/>
+		<textarea class="fakeconsole" style="width:800px;height:400px;margin-top:30px"></textarea>		
+      </article>
+
+      <article class="fill">
+        <h3>Another architecture overview...</h3>
+		<img src="static/images/request_deliver_data.png" style="border:2px solid black;margin-left:-40px;margin-top:10px;width:850px;padding:2px" />
+      </article>
+
+	  <article class="fill" style="background: url(static/images/html5party.png) 0px 0px no-repeat;">
+		<h3 style="margin-top:230px">So what do we solve?</h3>
+	  </article>
+	
+      <article class="fill">
+        <h3>
+          Finding a problem... (I)
+        </h3>
+		<ul>
+			<li>We ask for a problem to solve.</li>
+			<li>The server delivers the problem.</li>
+			<li>The server points us to the script that can solve the problem.</li>
+			<li>The client solves the problem and sends the solution.</li>
+		</ul>
+      </article>
+
+      <article class="fill">
+        <h3>
+          Finding a problem... (II)
+        </h3>
+		<ul>
+			<li>This sample will work better with small easy problems</li>
+			<li>This way the socket permanent connection is 100% justified</li>
+			<li>To simplify the sample we will solve a common human issue... SUDOKUS, but you can put any other algorithm there, finding aliens, curing cancer or solving sudokus is exactly the same for a CPU.</li>
+		</ul>
+		<img src="static/images/papel_sudoku.jpg" style="border:2px solid black;margin-left:250px;margin-top:10px;width:240px;padding:2px" />
+      </article>
+
+      <article class="fill">
+        <h3>Finding a problem... (III)</h3>
+		<img src="static/images/request_deliver_sudoku.png" style="border:2px solid black;margin-left:-20px;margin-top:10px;width:830px;padding:2px" />
+      </article>
+
+	  <article class="fill">
+		<h3>
+		  Requesting data with the client...
+		</h3>
+<pre class="prettify">
+//CLIENT SIDE
+function requestData(){
+  socket.emit('requestData',{});
+}
+socket.on('deliverData',function(data){
+  //data.problem  && data.solver
+})
+</pre>
+		<h3>
+  		  Delivering the problem with node...
+		</h3>		
+<pre class="prettify">
+//SERVER SIDE
+socket.on('requestData',function(socket){
+  socket.emit('deliverData', {problem: 'X5XX4XXX;X138XXX64;9XX3XX521;4XXXX9XX6;7XX4X398X;18XX264XX;XXX2XXXX9;8X4XXX63X;X9XXXX1X7', 
+                              solver:  'path/to/solver/sudoku.js'
+  });
+});
+</pre>
+		<h3 style="margin-top:-20px">
+  		  JS in both sides  =>  NO PARSING  =>  HAPPY DEVELOPER
+		</h3>
+		</article>
+		
+		<article class="fill">
+        <h3>
+          Let's try it!
+        </h3>
+		<input value="Connect Socket" type="button" onClick="connectSocket()    "><input value="Disconnect Socket" type="button" onClick="disconnectSocket()    "><br/>
+		<input value="Request data!" type="button" onClick="requestData()"><br/>
+		<textarea class="fakeconsole" style="width:800px;height:400px;margin-top:30px"></textarea>		
+      </article>
+
+      <article class="fill">
+        <h3>
+          Solving sudokus (I)
+        </h3>
+		<ul>
+			<li>We are going to solve sudokus the easy way (for a computer).</li>
+			<li>We will use backtracking, out of the scope but basically is a brute force process.</li>
+			<li>There is better ways to solve sudokus, but backtracking will do it and some time takes seconds so we will see the examples working.</li>	
+			<li>Of course we will represent the sudokus on html5 canvas =)</li>
+		</ul>
+      </article>
+
+      <article class="fill">
+        <h3>
+          Solving sudokus (II) Backtracking 
+        </h3>
+<pre class="prettify">
+//sudoku_basic.js
+	
+function Sudoku(string){...}
+
+Sudoku.prototype.validNumber      = function(number,row,column){...}
+
+Sudoku.prototype.candidatesFor    = function(row,column){...}
+
+Sudoku.prototype.backtrack        = function(row,col){...}
+
+Sudoku.prototype.drawSudoku       = function(canvasid){...}
+</pre>
+		<ul>
+			<li>Backtracking puts valids numbers square by square if the sudoku reaches an invalid state it goes back and tries with the next candidate.</li>
+		</ul>
+		<h3>If interested take a look to sudoku_basic.js</h3>
+      </article>
+
+      <article class="fill">
+        <h3>
+          Solving sudokus (III)
+        </h3>
+		<input type="button" value="EASY SUDOKU" onClick="s=new Sudoku('X5XX4XXXX;X138XXX64;9XX3XX521;4XXXX9XX6;7XX4X398X;18XX264XX;XXX2XXXX9;8X4XXX63X;X9XXXX1X7');s.drawSudoku('sudoku1');" style="margin-top:40px" />
+		<input type="button" value="HARD SUDOKU" onClick="s=new Sudoku('XX64XXXXX;XX1XXXXXX;XXX7XXXX9;XXXXXXXX8;9XXX5XX1X;7X813XXXX;5XXXX43XX;XX4XXXX6X;8XXX96XX4');s.drawSudoku('sudoku1');" style="margin-top:40px" />
+		<input type="button" value="SOLVE" onClick="s.backtrack(0,0);s.drawSudoku('sudoku1');	" style="margin-left:120px;margin-top:40px" /><br/>
+		<canvas id="sudoku1" width="300px" height="300px" style="border:1px solid black;background-color:white;margin-top:60px;margin-left:60px"></canvas>
+		<img src="static/images/nyancat.gif" style="height:295px;border:2px solid black;margin-left:60px;padding:2px" />
+	  </article>
+
+      <article class="fill">
+        <h3>
+          Just a hint of what will happen with a harder sudoku...
+        </h3>
+		<img src="static/images/blocked_ui.png" style="border:2px solid black;margin-left:90px;margin-top:70px;width:600px;padding:2px" />
+      </article>
+
+	  <article class="fill" style="background: url(static/images/html5party.png) 0px 0px no-repeat;">
+		<h3 style="margin-top:230px">Background processing with webworkers.</h3>
+	  </article>
+
+      <article class="fill">
+        <h3>
+          Let's start with Webworkers.
+        </h3>
+		<ul>
+			<li>Obviously we need to solve the sudokus in a separated thread.</li>
+			<li>The worker will use our basic backtracking library.</li>
+			<li>We need to know: how to create workers, and how to communicate with them.</li>
+		</ul>
+<pre class="prettify">
+//creating workers
+var sudokuWorker = new Worker('sudoku.js');
+
+//sending info to the worker
+sudokuWorker.postMessage("X5XX4XXXX;..."); //or
+sudokuWorker.postMessage({type:"sudoku",sudoku:"X5XX4XXXX;..."});
+
+//receiving info
+sudokuWorker.addEventListener('message', function(e){ 
+ /*process the data*/ 
+},false);
+</pre>
+      </article>
+
+      <article class="fill">
+        <h3>
+          Communicating from the webworker side...
+        </h3>
+<pre class="prettify" style="margin-top:40px">
+//on sudoku.js
+self.addEventListener('message', function(e){
+ var eventdata = e.data;
+ switch(eventdata.type){
+  case 'sudoku':
+     //Use external libs and execute remote scripts.
+     importScripts('path/to/sudoku_basic.js');
+     //backtracking code
+     var s = new Sudoku(eventdata.sudoku);
+     s.backtrack(0,0);
+     self.postMessage(s);
+  break;	
+ }; 	
+},false);
+
+//when we want to update the ui
+self.postMessage('123456789;...');
+//when we want to finish the worker
+self.close();
+</pre>	
+      </article>
+
+      <article class="fill">
+        <h3>
+          Solving sudokus with webworkers...
+        </h3>
+		<input type="button" value="HARD SUDOKU" onClick="s=new Sudoku('XX64XXXXX;XX1XXXXXX;XXX7XXXX9;XXXXXXXX8;9XXX5XX1X;7X813XXXX;5XXXX43XX;XX4XXXX6X;8XXX96XX4');s.drawSudoku('sudoku2');" style="margin-top:40px" />
+		<input type="button" value="SOLVE WITH A WORKER" onClick="launchWorker('XX64XXXXX;XX1XXXXXX;XXX7XXXX9;XXXXXXXX8;9XXX5XX1X;7X813XXXX;5XXXX43XX;XX4XXXX6X;8XXX96XX4','sudoku2');" style="margin-left:120px;margin-top:40px" /><br/>
+		<canvas id="sudoku2" width="300px" height="300px" style="border:1px solid black;background-color:white;margin-top:60px;margin-left:60px"></canvas>
+		<img src="static/images/nyancat.gif" style="height:295px;border:2px solid black;margin-left:60px;padding:2px" />
+      </article>
+
+	  <article class="fill">
+        <h3>
+			Not bad... but...
+        </h3>
+		<ul>
+			<li>We just show the final state.</li>
+			<li>In other scenarios we want the UI to be updated more often.</li>
+			<li>A good sample of an scenario like that would be calculating physics for a game.</li>
+			<li>Let's procrastinate an slide and take a look to one Seth Ladd box2D samples.</li>
+			<li>If interested you should read <a href="http://blog.sethladd.com">Sedd's blog</a></li>
+		</ul>
+      </article>
+
+	  <article id="box2d" class="fill">
+        <h3>
+          Seth Ladd -> Box2D & webworkers samples.
+        </h3>
+		<script>
+		transientIframe("box2d", "http://box2d-javascript-fun.appspot.com/03/index.html");        
+        
+		</script>
+		<iframe id="box2d-37-iframe" src="http://box2d-javascript-fun.appspot.com/03/index.html"></iframe>
+      </article>
+
+      <article class="fill">
+        <h3>Making the most out of webworkers...</h3>
+		<ul>
+			<li>As many as your CPU can sustain.</li>
+			<li>How many threads? How complex?</li>
+			<li>We don't have access to RAM or CPU data.</li>
+			<li>Don't knowing the hardware can get us in trouble.</li>
+			<li>Probably there is space for an API to the system.</li>
+		</ul>
+      </article>
+
+      <article class="fill">
+        <h3>Webworkers creating subworkers</h3>
+		<ul>
+			<li>Divide and conquer works.</li> 
+			<li>Divide again and conquer more =)</li>
+			<li>No code changes.</li>
+<pre class="prettify">
+//inside a worker
+var subworker = new Worker('path/to/subworker.js');
+</pre>
+		</ul>
+      </article>
+
+      <article class="fill">
+        <h3>Client architecture...</h3>
+		<img src="static/images/client_arch.png" style="border:2px solid black;margin-left:-20px;margin-top:10px;width:830px;padding:2px" />
+      </article>
+
+	  <article class="fill" style="background: url(static/images/html5party.png) 0px 0px no-repeat;">
+		<h3 style="margin-top:230px">Wrapping it up.</h3>
+	  </article>
+
+	  <article class="fill">
+	        <h3>Let's wrap it up.</h3>
+			<ul>
+				<li>The sample can be improved with some no HTML5 knowledge.</li>
+				<li>Separated workers for download & uploading</li>
+				<li><a href="http://en.wikipedia.org/wiki/FIFO">FIFO queues</a> and buffering data.</li>
+			</ul>
+	  </article>
+	
+	  <article class="fill">
+	        <h3>Main ideas.</h3>
+			<ul>
+				<li>Cats would save the world. Embrace them.</li>
+				<li>NODE JS is a good server for next gen apps.</li>
+				<li>Websockets provide easy BIDIRECTIONAL communication.</li>
+				<li>SocketIO is a great websocket wrapper.</li>
+				<li>Webworkers are powerful, but you should be careful overpopulating.</li>
+			</ul>
+	  </article>
+	
+	  <article class="fill" style="background: url(static/images/html5party.png) 0px 0px no-repeat;">
+		<h3 style="margin-top:230px">Happy with my presentation? I am. Ask me... why?</h3>
+	  </article>
+	
+	  <article class="fill">
+	        <h3>During my presentation and with my system...</h3>
+			<ul>
+				<li>I could have found aliens...</li>
+				<li>Cured cancer...</li>
+				<li>Or solved like 10.000.000 sudokus</li><br/>
+				<h3>Feels great, right?</h3>
+			</ul>
+	  </article>
+	
+	  <article class="fill">
+	        <h3>If you still love me...</h3>
+			<ul>
+				<li>Come this afternoon =)</li>
+				<li>I'll show you how to code a 2DGame engine from scratch.</li>
+				<img src="static/images/game.png" style="border:2px solid black;margin-left:100px;margin-top:10px;width:500px;padding:2px" />
+			</ul>
+	  </article>
+	
+	  <article class="fill">
+	        <h3>
+	Víctor Sánchez Belmar
+	        </h3>
+	        <img src="static/images/avatar_victor_sanchez.png" alt="Víctor Sánchez Belmar" style="float:right; width:230px; border:2px solid black; padding:2px">
+	        <ul>
+	          <li>
+	            HTML5 Researcher @ ETSIT UPM
+	          </li>
+	          <li>
+	            Co-organizer of the HTML5Party! :)
+	          </li>
+					<li>Associated Instructor at IIT</li>
+					<li>Event addict and startup lover =)</li>
+			  <li>
+	            <a href="mailto:vsanchez@dit.upm.es">vsanchez@dit.upm.es</a>
+	          </li>	
+	          <li>
+	            <a href="http://twitter.com/VictorSanchez">@VictorSanchez</a>
+	          </li>
+	          <li>
+	            <a href="http://victorsb.com">http://victorsb.com</a>
+	          </li>
+	        </ul>
+	  <h3 style="margin-top:100px">Any questions? Rot tomatoes?</h3>
+	  </article>
+	
+
+	
+
+</section>
+
+  
+
+<link rel="stylesheet" type="text/css" href="static/stylesheets/css"><link rel="stylesheet" type="text/css" href="static/stylesheets/styles.css">
+<script type="text/javascript" src="static/javascripts/prettify.js"></script>
+<script type="text/javascript" src="static/javascripts/sudoku_basic.js"></script>
+<script type="text/javascript" src="static/javascripts/client.js"></script>
+<script type="text/javascript" src="static/javascripts/utils.js"></script>
+<script type="text/javascript" src="static/javascripts/main.js"></script>
+
+</body>
+</html>
